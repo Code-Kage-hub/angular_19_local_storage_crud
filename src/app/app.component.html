@@ -1,0 +1,120 @@
+<div class="row">
+  @if(isNewUser == false){
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-warning">
+        <div class="row">
+          <div class="col-6">
+            <h6>User List</h6>
+          </div>
+          <div class="col-6 text-md">
+            <button class="btn btn-success" (click)="changeView()">Add New User</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          @for(item of usrList; track $index){
+          <div class="col-3">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">{{item.fname}} {{item.lname}}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">{{item.uname}}</h6>
+                <p class="card-text">{{item.city}}, {{item.state}}, {{item.zipcode}}</p>
+                <a class="card-link text-success" (click)="onEdit(item)">Edit</a>
+                <a class="card-link text-danger" (click)="onDelete(item.userId)">Delete</a>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+  @else {
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header bg-warning">
+        <div class="row">
+          <div class="col-6">
+            <h6>New User</h6>
+          </div>
+          <div class="col-6 text-md">
+            <button class="btn btn-success" (click)="changeView()">List View</button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <form class="row g-3" #formValue="ngForm">
+          <div class="col-md-4">
+            <label for="validationDefault01" class="form-label">First name</label>
+            <input type="text" class="form-control" [(ngModel)]="userObj.fname" #fname="ngModel" name="fname" id="validationDefault01"
+              value="Mark" >
+              @if(fname.touched){
+                <div class="text-danger">
+                  @if(fname.errors?.['']){
+                    <span>This is </span>
+                  }
+                  @if(fname.errors?.['minLength']){
+                    <span>Min 4 Char needed</span>
+                  }
+                </div>
+              }
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Last name</label>
+            <input type="text" class="form-control" [(ngModel)]="userObj.lname" name="lname" id="validationDefault02"
+              value="Otto" >
+          </div>
+          <div class="col-md-4">
+            <label for="validationDefaultUsername" class="form-label">Username</label>
+            <div class="input-group">
+              <span class="input-group-text" id="inputGroupPrepend2">&#64;</span>
+              <input type="text" class="form-control" [(ngModel)]="userObj.uname" name="uname"
+                id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" >
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="validationDefault03"  class="form-label">City</label>
+            <input type="text" class="form-control" [(ngModel)]="userObj.city" name="city" id="validationDefault03" >
+          </div>
+          <div class="col-md-3">
+            <label for="validationDefault04" class="form-label">State</label>
+            <select class="form-select" [(ngModel)]="userObj.state" name="state" id="validationDefault04" >
+              <option selected disabled value="">Choose state</option>
+              <option>Andhra Pradesh</option>
+              <option>Telangana</option>
+              <option>Karnataka</option>
+              <option>Tamil nadu</option>
+              <option>kerala</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label for="validationDefault05" class="form-label">Zip</label>
+            <input type="text" class="form-control" [(ngModel)]="userObj.zipcode" name="zipcode"
+              id="validationDefault05" >
+          </div>
+          <div class="col-12">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" [(ngModel)]="userObj.isAgree" name="isAgree" value=""
+                id="invalidCheck2" >
+              <label class="form-check-label" for="invalidCheck2">
+                Agree to terms and conditions
+              </label>
+            </div>
+          </div>
+          <div class="col-12">
+            @if (userObj.userId == 0) {
+              <button class="btn btn-primary" type="submit" [disabled]="formValue.invalid"  (click)="onSave()">Submit form</button>
+            }
+            @else {
+               <button class="btn btn-warning" type="submit" (click)="onUpdate()">Update</button>
+            }
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  }
+</div>
